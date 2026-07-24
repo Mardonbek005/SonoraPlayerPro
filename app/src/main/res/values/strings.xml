@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Sonora</string>
+    <string name="tab_library">Kutubxona</string>
+    <string name="tab_playlists">Pleylistlar</string>
+    <string name="tab_favorites">Sevimlilar</string>
+    <string name="tab_settings">Sozlamalar</string>
+    <string name="search_hint">Qo\'shiq, ijrochi yoki albom qidirish</string>
+    <string name="permission_rationale_title">Musiqa fayllariga ruxsat kerak</string>
+    <string name="permission_rationale_body">Sonora telefoningizdagi musiqalarni ko\'rsatish uchun audio fayllarga kirish ruxsatiga muhtoj.</string>
+    <string name="permission_grant">Ruxsat berish</string>
+    <string name="empty_library_title">Musiqa topilmadi</string>
+    <string name="empty_library_body">Telefoningizda hali audio fayllar yo\'q yoki ruxsat berilmagan</string>
+    <string name="new_playlist">Yangi pleylist</string>
+    <string name="playlist_name_hint">Pleylist nomi</string>
+    <string name="create">Yaratish</string>
+    <string name="cancel">Bekor qilish</string>
+    <string name="add_to_playlist">Pleylistga qo\'shish</string>
+    <string name="remove_from_playlist">Pleylistdan olib tashlash</string>
+    <string name="delete_playlist">Pleylistni o\'chirish</string>
+    <string name="shuffle">Aralashtirish</string>
+    <string name="repeat_off">Takrorlash: o\'chiq</string>
+    <string name="repeat_one">Takrorlash: bitta</string>
+    <string name="repeat_all">Takrorlash: hammasi</string>
+</resources>
