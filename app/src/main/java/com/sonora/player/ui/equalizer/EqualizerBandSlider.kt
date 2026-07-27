@@ -45,10 +45,10 @@ fun EqualizerBandSlider(
                 .width(40.dp)
                 .height(trackHeight)
                 .pointerInput(band.index) {
+                    val trackHeightPx = size.height.toFloat()
                     detectVerticalDragGestures { change, _ ->
                         change.consume()
-                        val boxHeightPx = size.height.toFloat()
-                        val relativeY = (change.position.y / boxHeightPx).coerceIn(0f, 1f)
+                        val relativeY = (change.position.y / trackHeightPx).coerceIn(0f, 1f)
                         // Top of the track = max gain, bottom = min gain.
                         val newFraction = 1f - relativeY
                         val newLevel = (band.minLevelMillibel + newFraction * range).toInt()

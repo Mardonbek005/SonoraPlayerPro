@@ -10,7 +10,6 @@ import androidx.media3.session.SessionToken
 import com.sonora.player.domain.model.PlaybackState
 import com.sonora.player.domain.model.RepeatMode
 import com.sonora.player.domain.model.Song
-import com.sonora.player.player.audioeffects.EqualizerController
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,8 +25,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class PlayerConnection @Inject constructor(
-    @ApplicationContext private val context: Context,
-    val equalizerController: EqualizerController
+    @ApplicationContext private val context: Context
 ) {
     private var controller: MediaController? = null
     private var currentQueue: List<Song> = emptyList()
@@ -44,7 +42,6 @@ class PlayerConnection @Inject constructor(
             val index = controller?.currentMediaItemIndex ?: -1
             val song = currentQueue.getOrNull(index)
             _state.value = _state.value.copy(currentSong = song, currentIndex = index)
-            attachEqualizerIfNeeded()
         }
 
         override fun onPositionDiscontinuity(oldPosition: Player.PositionInfo, newPosition: Player.PositionInfo, reason: Int) {
@@ -70,21 +67,12 @@ class PlayerConnection @Inject constructor(
         controller = MediaController.Builder(context, sessionToken).buildAsync().await().also {
             it.addListener(playerListener)
         }
-        attachEqualizerIfNeeded()
-    }
-
-    private fun attachEqualizerIfNeeded() {
-        val sessionId = controller?.audioSessionId ?: return
-        if (sessionId != 0) {
-            equalizerController.attach(sessionId)
-        }
     }
 
     fun disconnect() {
         controller?.removeListener(playerListener)
         controller?.release()
         controller = null
-        equalizerController.release()
     }
 
     /** Loads a new queue and starts playback at [startIndex]. */
@@ -96,7 +84,6 @@ class PlayerConnection @Inject constructor(
         player.prepare()
         player.play()
         _state.value = _state.value.copy(queue = songs, currentIndex = startIndex, currentSong = songs.getOrNull(startIndex))
-        attachEqualizerIfNeeded()
     }
 
     fun togglePlayPause() {
@@ -139,9 +126,6 @@ class PlayerConnection @Inject constructor(
     fun currentVolume(): Float = controller?.volume ?: 1f
 
     fun currentPositionMs(): Long = controller?.currentPosition ?: 0L
-
-    /** Exposes the live audio session id (0 if not yet available) for effects like the Visualizer. */
-    fun audioSessionId(): Int = controller?.audioSessionId ?: 0
 }
 
 private fun Song.toMediaItem(): MediaItem =
