@@ -6,6 +6,7 @@ sealed class Destination(val route: String) {
     data object Favorites : Destination("favorites")
     data object Settings : Destination("settings")
     data object Player : Destination("player")
+    data object Equalizer : Destination("equalizer")
     data object PlaylistDetail : Destination("playlist/{playlistId}") {
         fun createRoute(playlistId: Long) = "playlist/$playlistId"
     }

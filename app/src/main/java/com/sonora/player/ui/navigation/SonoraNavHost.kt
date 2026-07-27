@@ -27,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.sonora.player.ui.favorites.FavoritesScreen
+import com.sonora.player.ui.equalizer.EqualizerScreen
 import com.sonora.player.ui.library.LibraryScreen
 import com.sonora.player.ui.player.MiniPlayer
 import com.sonora.player.ui.player.PlayerScreen
@@ -77,7 +78,10 @@ fun SonoraNavHost() {
             Box(modifier = Modifier.weight(1f, fill = true)) {
                 NavHost(navController = navController, startDestination = Destination.Library.route) {
                     composable(Destination.Library.route) {
-                        LibraryScreen(onSongClick = { navController.navigate(Destination.Player.route) })
+                        LibraryScreen(
+                            onSongClick = { navController.navigate(Destination.Player.route) },
+                            onFilterClick = { navController.navigate(Destination.Equalizer.route) }
+                        )
                     }
                     composable(Destination.Playlists.route) {
                         PlaylistScreen(onPlaylistClick = {
@@ -88,10 +92,13 @@ fun SonoraNavHost() {
                         FavoritesScreen(onSongClick = { navController.navigate(Destination.Player.route) })
                     }
                     composable(Destination.Settings.route) {
-                        SettingsScreen()
+                        SettingsScreen(onOpenEqualizer = { navController.navigate(Destination.Equalizer.route) })
                     }
                     composable(Destination.Player.route) {
                         PlayerScreen(onBack = { navController.popBackStack() })
+                    }
+                    composable(Destination.Equalizer.route) {
+                        EqualizerScreen(onBack = { navController.popBackStack() })
                     }
                     composable(
                         route = Destination.PlaylistDetail.route,
